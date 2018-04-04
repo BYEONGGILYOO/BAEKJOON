@@ -25,11 +25,9 @@ void search()
         {
             if(adj[y][x] && !visited[y][x])
             {
-                int comp = 0;
                 visited[y][x] = true;
-                comp ++;
-                comp += dfs(x,y);
-                cout << "components: " << comp << endl;
+                int comp = dfs(x,y);
+                //cout << "components: " << comp << endl;
                 if(comp > maxComponents)
                     maxComponents = comp;
             }
@@ -40,8 +38,7 @@ void search()
 
 int dfs(int x, int y)
 {
-    cout << "==========dfs(" << x << "," << y << ")===========" << endl;
-    int components = 0;
+    int components = 1;
     for(int i=0; i<4; i++)
     {
         int xx = x + calMatrix[i][1];
@@ -49,13 +46,10 @@ int dfs(int x, int y)
 
         if(xx >= 0 && yy >= 0 && xx < col && yy < row)
         {
-            cout << "loop: " << i << " xx: " << xx << " yy: " << yy << endl;
-            cout << "adj: " << adj[yy][xx] << " visited: " << visited[yy][xx] << endl;
             if(adj[yy][xx] && !visited[yy][xx])
             {
                 visited[yy][xx] = true;
-                components++ ;
-                dfs(xx,yy);
+                components += dfs(xx,yy);
             }
         }
     }
