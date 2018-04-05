@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdio>
-#include <algorithm>
+#include <cstring>
 
 using namespace std;
 
@@ -10,12 +10,13 @@ bool visited[100][100] = {0};
 int dir[4][2] = {{0,-1},{0,1},{-1,0},{1,0}};
 int RGB_cnt[4] = {0};
 
-void dfs(int curr_x, int curr_y)
+void dfs(int curr_x, int curr_y, bool color_blindness = false)
 {
     visited[curr_x][curr_y] = true;
     int curr_color = color[curr_x][curr_y];
-    if(RGB_cnt[curr_color] == 0)
-        RGB_cnt[curr_color] = 1;
+
+    if(color_blindness && curr_color == 2)
+        curr_color = 1;
 
     for(int i=0; i<4; i++)
     {
@@ -24,11 +25,11 @@ void dfs(int curr_x, int curr_y)
 
         if(new_x >= 0 && new_y >= 0 && new_x < N && new_y < N)
         {
-            if(!visited[curr_x][curr_y] && color[new_x][new_y] == curr_color)
-            {
-                dfs(new_x, new_y);
-                RGB_cnt[color[new_x][new_y]]++;
-            }
+            int new_color = color[new_x][new_y];
+            if(color_blindness && new_color == 2)
+                new_color = 1;
+            if(!visited[new_x][new_y] && new_color == curr_color)
+                dfs(new_x, new_y, color_blindness);
         }
     }
 }
@@ -57,8 +58,23 @@ int main(int argc, char** argv)
     for(int i=0; i<N; i++)
         for(int j=0; j<N; j++)
             if(!visited[i][j])
+            {
+                RGB_cnt[color[i][j]]++;
                 dfs(i,j);
+            }
+    printf("%d\n",RGB_cnt[1]+RGB_cnt[2]+RGB_cnt[3]);
 
-    printf("R: %d, G: %d, B: %d\n", RGB_cnt[1], RGB_cnt[2], RGB_cnt[3]);
+    memset(visited, 0, sizeof(visited));
+    memset(RGB_cnt, 0, sizeof(RGB_cnt));
 
+    for(int i=0; i<N; i++)
+        for(int j=0; j<N; j++)
+            if(!visited[i][j])
+            {
+                RGB_cnt[color[i][j]]++;
+                dfs(i,j,true);
+            }
+    printf("%d\n",RGB_cnt[1]+RGB_cnt[2]+RGB_cnt[3]);
+
+    return 0;
 }
