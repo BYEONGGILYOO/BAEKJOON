@@ -36,7 +36,7 @@ int main()
             scanf("%d", &input[y][x]);
 
     int max_components = -N*N+1;
-    for(int i=1; i<100; i++)
+    for(int i=0; i<=100; i++)
     {
         water_level = i;
         memset(visited, 0, sizeof visited);
@@ -49,9 +49,10 @@ int main()
                     dfs(y,x);
                     components++;
                 }
+                visited[y][x] = true;
             }
-                    if(components > max_components)
-                        max_components = components;
+        if(components > max_components)
+            max_components = components;
     }
 
     printf("%d\n", max_components);
