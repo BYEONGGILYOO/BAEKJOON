@@ -10,9 +10,8 @@ bool visited[100][100];
 int direction[4][2] = {{-1,0},{1,0},{0,-1},{0,1}};
 int water_level = 0;
 
-int dfs(int y, int x)
+void dfs(int y, int x)
 {
-    int components = 1;
     visited[y][x] = true;
 
     for(int i=0; i<4; i++)
@@ -23,11 +22,9 @@ int dfs(int y, int x)
         if(new_y >= 0 && new_x >=0 && new_y < N && new_x < N)
         {
             if(input[new_y][new_x] - water_level > 0 && !visited[new_y][new_x])
-                components += dfs(y,x);
+                dfs(new_y,new_x);
         }
     }
-
-    return components;
 }
 
 int main()
@@ -42,14 +39,19 @@ int main()
     for(int i=1; i<100; i++)
     {
         water_level = i;
+        memset(visited, 0, sizeof visited);
+        int components = 0;
         for(int y=0; y<N; y++)
             for(int x=0; x<N; x++)
             {
-                memset(visited, 0, sizeof visited);
-                int components = dfs(y,x);
-                if(components > max_components)
-                    max_components = components;
+                if(!visited[y][x] && input[y][x] - water_level > 0)
+                {
+                    dfs(y,x);
+                    components++;
+                }
             }
+                    if(components > max_components)
+                        max_components = components;
     }
 
     printf("%d\n", max_components);
