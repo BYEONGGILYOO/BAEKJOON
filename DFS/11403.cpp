@@ -1,58 +1,46 @@
 #include <iostream>
-#include <cstdio>
-#include <cstring>
 
 using namespace std;
 
-int N = 0;
-bool adj[100][100] = {0};
-bool visited[100][100] = {0};
+int input[100][100];
+bool visited[100][100];
+int N;
 
-bool dfs(int curr_from, int curr_to)
+void dfs(int top, int x, int y)
 {
-    if(adj[curr_from][curr_to] || visited[curr_from][curr_to])
-        return true;
-    else return false;
+	input[top][y] = 1;
+	visited[top][y] = true;
 
-    int next_to = curr_to;
-    for(int i=0; i<N; i++)
-    {
-        if(i == curr_from || i == curr_to)
-            continue;
-
-        if(dfs(i,next_to))
-        {
-            visited[i][next_to] = true;
-            next_to = i;
-
-            if(i == curr_from)
-                return true;
-        }
-    }
-    return false;
+	for (int i = 0; i < N; i++)
+	{
+		if (!visited[top][i] && input[y][i])
+			dfs(top, y, i);
+	}
 }
 
 int main()
 {
-    scanf("%d", &N);
+	scanf("%d", &N);
 
-    for(int i=0; i<N; i++)
-        for(int j=0; j<N; j++)
-            scanf("%d", &adj[i][j]);
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+			scanf("%d", &input[i][j]);
+	
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			if (!visited[i][i] && input[i][j])
+				dfs(i, i, j);
+		}
+	}
 
-    for(int i=0; i<N; i++)
-    {
-        for(int j=0; j<N; j++)
-            if(dfs(i,j))
-                visited[i][j] = true;
-    }
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+			printf("%d ", input[i][j]);
+		printf("\n");
+	}
 
-    for(int i=0; i<N; i++)
-    {
-        for(int j=0; j<N; j++)
-            printf("%d ", visited[i][j]);
-        printf("\n");
-    }
-
-    return 0;
+	return 0;
 }
