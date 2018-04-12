@@ -17,7 +17,7 @@ void dfs(int curr_r, int curr_c, int curr_dir)
 {
     visited[curr_r][curr_c] = true;
     bool flag = false;
-
+	
     int next_dir = curr_dir;
     for(int i=0; i<4; i++)
     {
@@ -37,20 +37,21 @@ void dfs(int curr_r, int curr_c, int curr_dir)
             }
         }
     }
+	// if no way to vacuum, 
     if(!flag)
     {
         next_dir = curr_dir;
+		int next_r = curr_r;
+		int next_c = curr_c;
         while(1)
         {
-            int next_r = curr_r + back[next_dir][0];
-            int next_c = curr_c + back[next_dir][1];
-            next_dir += 1;
-            if(next_dir == 4) next_dir = 0;
-
+            next_r = next_r + back[next_dir][0];
+            next_c = next_c + back[next_dir][1];
+            
             if(next_r >= 0 && next_c >= 0 && next_r < rows && next_c < cols)
             {
-                if(!input[next_r][next_c])
-                    dfs(next_r, next_c, next_dir);
+				if (!input[next_r][next_c])
+					dfs(next_r, next_c, next_dir);
                 else
                     return;
             }
@@ -67,9 +68,11 @@ int main()
 
     for(int y=0; y<rows; y++)
         for(int x=0; x<cols; x++)
-            scanf("%d", input[y][x]);
+            scanf("%d", &input[y][x]);
 
     dfs(curr_r, curr_c, curr_dir);
 
     printf("%d\n", cnt);
+
+	return 0;
 }
