@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\samsung\14891.cpp" />
+    <ClCompile Include="..\samsung\14889.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{641FC100-1689-4E89-B058-7ADEC68DC73D}</ProjectGuid>
