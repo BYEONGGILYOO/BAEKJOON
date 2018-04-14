@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\samsung\14503.cpp">
+    <ClCompile Include="..\samsung\14890.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
